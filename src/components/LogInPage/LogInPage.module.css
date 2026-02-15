@@ -1,0 +1,112 @@
+/* Загальні стилі для контейнера */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f7f9fc; /* Світлий фон */
+  padding: 0 20px; /* Паддінг для кращої адаптивності */
+}
+
+.formWrapper {
+  background-color: #ffffff;
+  padding: 2rem; /* Паддінги для внутрішніх елементів */
+  border-radius: 16px; /* Округлені кути для форми */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* М'яка тінь */
+  width: 100%;
+  max-width: 420px; /* Максимальна ширина форми */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box; /* Враховуємо паддінги в ширині */
+}
+
+.title {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1.5rem; /* Відстань між полями */
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Вирівнюємо лейбли і інпути */
+  width: 100%;
+}
+
+.label {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #666;
+  font-family: 'Poppins', sans-serif;
+}
+
+.input {
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 100%;
+  background-color: #f9f9f9;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease-in-out;
+  box-sizing: border-box; /* Враховуємо паддінг в ширину */
+}
+
+.input:focus {
+  outline: none;
+  border-color: #007bff; /* Синій колір при фокусі */
+  background-color: #fff;
+}
+
+.submitButton {
+  padding: 1rem;
+  font-size: 1.2rem;
+  background-color: #007bff; /* Сучасний синій колір */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05); /* Легке збільшення кнопки при наведенні */
+}
+
+.submitButton:active {
+  transform: scale(0.98); /* Зменшення кнопки при натисканні */
+}
+
+.error {
+  color: #ff4d4f;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.forgotPassword {
+  font-size: 0.9rem;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-top: 1rem;
+}
+
+.forgotPassword:hover {
+  color: #0056b3;
+}

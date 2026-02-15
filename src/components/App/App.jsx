@@ -1,12 +1,12 @@
-
+import { Routes, Route } from 'react-router-dom';
+import LogInPage from '../LogInPage/LogInPage';
 
 function App() {
-
   return (
-    <> 
-      <h1>Vite + React</h1>
-    </>
-  )
+    <Routes>
+      <Route path="/signIn" element={<LogInPage />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
