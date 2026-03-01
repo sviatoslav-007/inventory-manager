@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Імпортуємо Link з react-router-dom
+import { Link } from 'react-router-dom'; 
 import styles from './RegisterPage.module.css';
 import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
 
@@ -126,7 +126,7 @@ const RegisterPage = () => {
           <button type="submit" className={styles.submitButton}>Зареєструватися</button>
 
           <div className={styles.loginLink}>
-            <p>Вже маєте акаунт? <Link to="/signIn" className={styles.link}>Увійти</Link></p> {/* Перехід на сторінку входу */}
+            <p>Вже маєте акаунт? <Link to="/signIn" className={styles.link}>Увійти</Link></p> 
           </div>
         </form>
       </div>
