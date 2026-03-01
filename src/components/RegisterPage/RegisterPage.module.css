@@ -38,7 +38,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 1.5rem; /* Відступ між полями введення */
+  gap: 1.5rem;
 }
 
 .inputWrapper {
@@ -101,14 +101,29 @@
 }
 
 .errorWrapper {
-  height: 1.5rem; /* Забезпечуємо фіксовану висоту для помилок */
+  height: 1.5rem;
 }
 
 .error {
   color: #ff4d4f;
   font-size: 0.9rem;
   text-align: left;
-  line-height: 1.2rem; /* Вирівнювання тексту по вертикалі */
+  line-height: 1.2rem;
   margin: 0;
-  padding-top: 0.3rem; /* Додатковий відступ для помилок */
+  padding-top: 0.3rem;
+}
+
+.loginLink {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link:hover {
+  text-decoration: underline;
 }

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import styles from './LogInPage.module.css';
-import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai'; 
+import { Link } from 'react-router-dom'; // Імпортуємо Link з react-router-dom
+import styles from './RegisterPage.module.css';
+import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
 
-const LogInPage = () => {
+const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
   const validateEmail = (email) => {
     if (!email) {
@@ -23,6 +26,14 @@ const LogInPage = () => {
       setPasswordError('Password is required');
     } else {
       setPasswordError('');
+    }
+  };
+
+  const validateConfirmPassword = (confirmPassword) => {
+    if (confirmPassword !== password) {
+      setConfirmPasswordError('Passwords do not match');
+    } else {
+      setConfirmPasswordError('');
     }
   };
 
@@ -44,15 +55,25 @@ const LogInPage = () => {
       isValid = false;
     }
 
+    if (!confirmPassword) {
+      setConfirmPasswordError('Please confirm your password');
+      isValid = false;
+    }
+
+    if (password !== confirmPassword) {
+      setConfirmPasswordError('Passwords do not match');
+      isValid = false;
+    }
+
     if (isValid) {
-      console.log('Logged in:', { email, password });
+      console.log('User registered:', { email, password });
     }
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.formWrapper}>
-        <h2 className={styles.title}>Вхід в Систему</h2>
+        <h2 className={styles.title}>Реєстрація</h2>
         <form onSubmit={handleSubmit} className={styles.form} noValidate>
           <div className={styles.inputWrapper}>
             <AiOutlineMail />
@@ -69,7 +90,7 @@ const LogInPage = () => {
             />
           </div>
           {emailError && <p className={styles.error}>{emailError}</p>} 
-          
+
           <div className={styles.inputWrapper}>
             <AiOutlineLock />
             <input
@@ -85,12 +106,32 @@ const LogInPage = () => {
             />
           </div>
           {passwordError && <p className={styles.error}>{passwordError}</p>} 
-          
-          <button type="submit" className={styles.submitButton}>Увійти</button>
+
+          <div className={styles.inputWrapper}>
+            <AiOutlineLock />
+            <input
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                validateConfirmPassword(e.target.value); 
+              }}
+              className={styles.input}
+              placeholder="Повторіть ваш пароль"
+            />
+          </div>
+          {confirmPasswordError && <p className={styles.error}>{confirmPasswordError}</p>} 
+
+          <button type="submit" className={styles.submitButton}>Зареєструватися</button>
+
+          <div className={styles.loginLink}>
+            <p>Вже маєте акаунт? <Link to="/signIn" className={styles.link}>Увійти</Link></p> {/* Перехід на сторінку входу */}
+          </div>
         </form>
       </div>
     </div>
   );
 };
 
-export default LogInPage;
+export default RegisterPage;
