@@ -1,0 +1,50 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: center; 
+}
+
+.logoIcon {
+  font-size: 30px;
+  color: #007bff; 
+  margin-right: 10px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.icons {
+  display: flex;
+  gap: 20px;
+  align-items: center; 
+}
+
+.icon {
+  font-size: 20px;
+  color: #666; 
+  cursor: pointer; 
+  transition: color 0.3s ease, transform 0.3s ease; 
+}
+
+.icon:hover {
+  color: #444; 
+  transform: scale(1.1); 
+}

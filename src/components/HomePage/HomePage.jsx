@@ -1,11 +1,11 @@
 import React from 'react';
+import Header from './Header/Header';  
 import { FaBox, FaCogs, FaDollarSign } from 'react-icons/fa';
 import { Bar } from 'react-chartjs-2';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from 'chart.js';
-import styles from './HomePage.module.css';  // Import styles
+import styles from './HomePage.module.css'; 
 
-// Register ChartJS components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -38,9 +38,9 @@ const HomePage = () => {
       {
         data: [60, 20, 20],
         backgroundColor: [
-          '#0099FF',  // Lighter shade
-          '#0066CC',  // Mid shade
-          '#003366'   // Darker shade
+          '#0099FF',  // Світліший відтінок
+          '#0066CC',  // Середній відтінок
+          '#003366'   // Темний відтінок
         ],
         hoverOffset: 4
       }
@@ -49,16 +49,10 @@ const HomePage = () => {
 
   return (
     <div className={styles.container}>
-      {/* Header */}
-      <div className={styles.header}>
-        <div className={styles.title}>Офісний Склад</div>
-        <div className={styles.icons}>
-          <FaBox />
-          <FaCogs />
-        </div>
-      </div>
+      {/* Використовуємо компонент Header */}
+      <Header />
 
-      {/* Statistics Section */}
+      {/* Розділ Статистики */}
       <div className={styles.statistics}>
         <div className={styles.statCard}>
           <div className={styles.statContent}>
@@ -83,7 +77,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Invoices Table */}
+      {/* Таблиця накладних */}
       <div className={styles.invoiceTable}>
         <h3>Останні накладні</h3>
         <table>
@@ -122,7 +116,7 @@ const HomePage = () => {
         </table>
       </div>
 
-      {/* Charts Section */}
+      {/* Розділ з графіками */}
       <div className={styles.charts}>
         <div className={styles.chartCard}>
           <h3>Статистика Товарів</h3>

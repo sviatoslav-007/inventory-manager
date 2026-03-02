@@ -2,33 +2,18 @@
   padding: 20px;
   background-color: #f4f7fa;
   font-family: 'Arial', sans-serif;
-}
-
-.header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #fff;
-  padding: 15px 25px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-.title {
-  font-size: 24px;
-  font-weight: 600;
-}
-
-.icons {
-  display: flex;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center; 
 }
 
 .statistics {
   display: flex;
   gap: 20px;
+  justify-content: center; 
   margin-bottom: 30px;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .statCard {
@@ -36,14 +21,13 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 270px;
+  width: 270px;
   text-align: center;
-  position: relative;
   height: 120px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 0 10px; 
 }
 
 .statContent {
@@ -74,6 +58,8 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .invoiceTable h3 {
@@ -120,7 +106,9 @@ th {
 
 .charts {
   display: flex;
-  gap: 30px;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .chartCard {
@@ -130,4 +118,5 @@ th {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 550px;
+  height: 400px; 
 }
