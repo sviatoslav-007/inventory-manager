@@ -1,6 +1,8 @@
 import React from 'react';
 import Header from './Header/Header';  
 import StatisticsCard from './StatisticsCard/StatisticsCard';  
+import InvoiceTable from './InvoiceTable/InvoiceTable';
+
 import { Bar } from 'react-chartjs-2';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from 'chart.js';
@@ -52,45 +54,8 @@ const HomePage = () => {
       <Header />
       <StatisticsCard /> 
 
-      <div className={styles.invoiceTable}>
-        <h3>Останні накладні</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>№</th>
-              <th>Постачальник</th>
-              <th>Дата</th>
-              <th>Загальна сума</th>
-              <th>Статус</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>#001</td>
-              <td>ТОВ "Sipic: Темпо"</td>
-              <td>15.03.2006</td>
-              <td>4,006</td>
-              <td className={`${styles.status} ${styles.approved}`}>Середнє</td>
-            </tr>
-            <tr>
-              <td>#002</td>
-              <td>ТОВ "Opic: Темпо"</td>
-              <td>15.03.2006</td>
-              <td>5,006</td>
-              <td className={`${styles.status} ${styles.pending}`}>Відправка</td>
-            </tr>
-            <tr>
-              <td>#003</td>
-              <td>Вул. Коптирева 1, Київ</td>
-              <td>15.03.2006</td>
-              <td>9,700</td>
-              <td className={`${styles.status} ${styles.rejected}`}>Підписка</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <InvoiceTable />
 
-      {/* Розділ з графіками */}
       <div className={styles.charts}>
         <div className={styles.chartCard}>
           <h3>Статистика Товарів</h3>
