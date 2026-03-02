@@ -1,0 +1,29 @@
+.chartContainer {
+  background-color: #fff; 
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1350px;
+  display: flex;
+  gap: 50px;
+  justify-content: space-between;
+}
+
+.chartCard {
+  background-color: transparent; 
+  padding: 10px;
+  border-radius: 8px;
+  width: 48%; 
+  height: 350px; 
+  margin-bottom: 0; 
+}
+
+.doughnutChartCard {
+  width: 48%; 
+  height: 300px; 
+}
+
+.chartCardTitle{
+    text-align: center;
+}
