@@ -1,33 +1,36 @@
 .statistics {
   display: flex;
   gap: 20px;
-  justify-content: center;
-  align-items: center; 
+  justify-content: space-between; 
+  align-items: center;
   margin-bottom: 30px;
   width: 100%;
-  max-width: 1200px;
-  margin-top: 70px; 
-  flex-wrap: wrap; 
+  max-width: 1400px; 
+  margin-top: 70px;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto; 
 }
 
 .statCard {
-  background-color: #fff; 
+  background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 270px;
+  flex: 1 1 30%; 
+  max-width: 33.33%;
+  box-sizing: border-box; 
   text-align: center;
   height: 120px;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   justify-content: center;
-  margin: 0 10px;
-  align-items: center; 
+  align-items: center;
 }
 
 .statContent {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   align-items: center;
   width: 100%;
 }
@@ -35,29 +38,29 @@
 .statTitle {
   font-size: 16px;
   color: #333;
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
 .statValue {
-  font-size: 28px; 
+  font-size: 28px;
   font-weight: 600;
-  color: #007bff; 
+  color: #007bff;
   display: flex;
   align-items: center;
 }
 
 .icon {
-  font-size: 25px; 
+  font-size: 25px;
 }
 
 .blueIcon {
-  color: #0066cc; 
+  color: #0066cc;
 }
 
 .orangeIcon {
-  color: #ff4500; 
+  color: #ff4500;
 }
 
 .greenIcon {
-  color: #218838; 
+  color: #218838;
 }
