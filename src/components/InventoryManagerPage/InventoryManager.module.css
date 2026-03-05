@@ -1,0 +1,82 @@
+.container {
+  padding: 20px;
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  background-image: url("/src/assets/mainBackground.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.filters {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.submitButton {
+  padding: 0.5rem 1rem;      /* компактніший padding */
+  font-size: 1rem;           /* менший шрифт */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+  width: auto;               /* не на всю ширину */
+  min-width: 100px;          /* мінімальна ширина, щоб не було занадто маленькою */
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.submitButton:active {
+  transform: scale(0.98);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.editButton {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
