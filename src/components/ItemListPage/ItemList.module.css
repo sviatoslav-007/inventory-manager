@@ -100,10 +100,10 @@ td {
 }
 
 .status.available {
-  background-color: #9de1ad;
+  background-color: #c1eac1;
 }
 
 .status.backorder {
-  background-color: #e8e473;
+  background-color: #fff3b0;
   color: #333;
 }
