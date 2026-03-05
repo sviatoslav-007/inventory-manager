@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom'; 
 import styles from './RegisterPage.module.css';
 import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
-
+import HomePage from '../HomePage/HomePage'; 
 const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -10,6 +10,8 @@ const RegisterPage = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+
+  const navigate = useNavigate(); 
 
   const validateEmail = (email) => {
     if (!email) {
@@ -67,6 +69,7 @@ const RegisterPage = () => {
 
     if (isValid) {
       console.log('User registered:', { email, password });
+      navigate('/homePage'); 
     }
   };
 
