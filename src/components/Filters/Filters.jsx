@@ -1,32 +1,57 @@
-import React from 'react';
-import styles from './Filters.module.css';
+import React from "react";
+import styles from "./Filters.module.css";
 
 const Filters = ({
-  itemStatus,
+  category,
+  status,
   priceOrder,
+  categoryOptions = [],
   statusOptions = [],
   priceOptions = [],
+  onCategoryChange,
   onStatusChange,
   onPriceOrderChange,
-  onSearch
 }) => {
   return (
     <div className={styles.filters}>
-      <select value={itemStatus} onChange={onStatusChange} className={styles.select}>
-        <option value="">Статус</option>
-        {statusOptions.map((status, idx) => (
-          <option key={idx} value={status}>{status}</option>
+      <select
+        value={category}
+        onChange={onCategoryChange}
+        className={styles.select}
+      >
+        <option value="">Категорія</option>
+        {categoryOptions.map((cat, idx) => (
+          <option key={idx} value={cat.value}>
+            {cat.label}
+          </option>
         ))}
       </select>
 
-      <select value={priceOrder} onChange={onPriceOrderChange} className={styles.select}>
+      <select
+        value={status}
+        onChange={onStatusChange}
+        className={styles.select}
+      >
+        <option value="">Статус</option>
+        {statusOptions.map((stat, idx) => (
+          <option key={idx} value={stat.value}>
+            {stat.label}
+          </option>
+        ))}
+      </select>
+
+      <select
+        value={priceOrder}
+        onChange={onPriceOrderChange}
+        className={styles.select}
+      >
         <option value="">Ціна</option>
         {priceOptions.map((opt, idx) => (
-          <option key={idx} value={opt.value}>{opt.label}</option>
+          <option key={idx} value={opt.value}>
+            {opt.label}
+          </option>
         ))}
       </select>
-
-      <button className={styles.submitButton} onClick={onSearch}>Пошук</button>
     </div>
   );
 };

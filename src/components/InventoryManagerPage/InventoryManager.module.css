@@ -12,9 +12,12 @@
 }
 
 .pageTitle {
-  font-size: 28px;
+  font-size: 36px;
   font-weight: bold;
-  margin-bottom: 20px;
+  color: #333;
+  margin-bottom: 30px;
+  font-family: "Arial", sans-serif;
+  padding-bottom: 10px;
 }
 
 .filters {
@@ -39,17 +42,19 @@
 }
 
 .submitButton {
-  padding: 0.5rem 1rem;      /* компактніший padding */
-  font-size: 1rem;           /* менший шрифт */
+  padding: 0.5rem 1rem; /* компактніший padding */
+  font-size: 1rem; /* менший шрифт */
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-family: 'Poppins', sans-serif;
-  width: auto;               /* не на всю ширину */
-  min-width: 100px;          /* мінімальна ширина, щоб не було занадто маленькою */
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  font-family: "Poppins", sans-serif;
+  width: auto; /* не на всю ширину */
+  min-width: 100px; /* мінімальна ширина, щоб не було занадто маленькою */
 }
 
 .submitButton:hover {
@@ -66,17 +71,9 @@
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   text-align: left;
   padding: 12px;
   border-bottom: 1px solid #eee;
-}
-
-.editButton {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
 }
