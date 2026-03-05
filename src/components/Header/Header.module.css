@@ -7,34 +7,44 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-  width: 100%; 
+  width: 100%;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
+  box-sizing: border-box;
+  overflow-x: auto; /* горизонтальний скрол якщо багато іконок */
 }
 
 .logo {
   display: flex;
-  align-items: center; 
+  align-items: center;
+  flex-shrink: 0;       /* логотип і текст не стискаються */
+  white-space: nowrap;  /* текст не переноситься */
 }
 
 .logoIcon {
   font-size: 30px;
   color: #007bff; 
   margin-right: 10px;
+  flex-shrink: 0;
 }
 
 .title {
   font-size: 24px;
   font-weight: 600;
   color: #333;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* якщо текст не влазить, додає "..." */
 }
 
 .icons {
   display: flex;
-  gap: 20px;
-  align-items: center; 
+  gap: 15px;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .icon {
@@ -42,6 +52,7 @@
   color: #666; 
   cursor: pointer; 
   transition: color 0.3s ease, transform 0.3s ease; 
+  flex-shrink: 0;
 }
 
 .icon:hover {

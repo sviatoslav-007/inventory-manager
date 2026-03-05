@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaBox, FaCogs, FaSearch, FaList, FaBuilding } from 'react-icons/fa'; 
+import { Link } from 'react-router-dom'; // імпортуємо Link
 import styles from './Header.module.css'; 
 
 const Header = () => {
@@ -10,9 +11,13 @@ const Header = () => {
         <div className={styles.title}>Офісний Склад</div>
       </div>
       <div className={styles.icons}>
-        <FaSearch className={`${styles.icon} ${styles.grayIcon}`} /> 
-        <FaList className={`${styles.icon} ${styles.grayIcon}`} /> 
-        <FaBox className={`${styles.icon} ${styles.grayIcon}`} /> 
+        <Link to="/items">
+          <FaSearch className={`${styles.icon} ${styles.grayIcon}`} />
+        </Link>
+        <Link to="/management">
+          <FaBox className={`${styles.icon} ${styles.grayIcon}`} />
+        </Link>
+
         <FaCogs className={`${styles.icon} ${styles.grayIcon}`} /> 
       </div>
     </div>
