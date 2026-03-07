@@ -12,7 +12,7 @@ const InventoryManager = () => {
   const [priceOrder, setPriceOrder] = useState("");
   const [editingItem, setEditingItem] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState(null); 
+  const [itemToDelete, setItemToDelete] = useState(null);
 
   const [purchaseItems, setPurchaseItems] = useState([
     {
@@ -70,24 +70,23 @@ const InventoryManager = () => {
   };
 
   const handleDelete = (item) => {
-    setItemToDelete(item); 
-    setIsDeleteModalOpen(true); 
+    setItemToDelete(item);
+    setIsDeleteModalOpen(true);
   };
 
   const handleDeleteConfirm = () => {
     const updatedList = purchaseItems.filter((item) => item !== itemToDelete);
     setPurchaseItems(updatedList);
-    setIsDeleteModalOpen(false); 
-    setItemToDelete(null); 
+    setIsDeleteModalOpen(false);
+    setItemToDelete(null);
   };
 
   const handleDeleteCancel = () => {
-    setIsDeleteModalOpen(false); 
-    setItemToDelete(null); 
+    setIsDeleteModalOpen(false);
+    setItemToDelete(null);
   };
 
-  const handleSearch = () => {
-  };
+  const handleSearch = () => {};
 
   const handleSave = (updatedItem) => {
     const updatedList = purchaseItems.map((it) =>
@@ -134,23 +133,18 @@ const InventoryManager = () => {
               <td>{item.status}</td>
               <td>
                 <button className={styles.iconButton}>
-                <FaEdit
-                  title="Редагувати"
-                  onClick={() => handleEdit(item)}
-                />
-                </button>
-                
-                <button className={styles.iconButton}>
-                <FaTrashAlt
-                  title="Видалити"
-                  onClick={() => handleDelete(item)} 
-                />
+                  <FaEdit title="Редагувати" onClick={() => handleEdit(item)} />
                 </button>
 
                 <button className={styles.iconButton}>
-                  <FaPlus
-                    title="Додати"
+                  <FaTrashAlt
+                    title="Видалити"
+                    onClick={() => handleDelete(item)}
                   />
+                </button>
+
+                <button className={styles.iconButton}>
+                  <FaPlus title="Додати" />
                 </button>
               </td>
             </tr>
@@ -170,7 +164,7 @@ const InventoryManager = () => {
         <DeleteModal
           item={itemToDelete}
           onConfirm={handleDeleteConfirm}
-          onClose={handleDeleteCancel} 
+          onClose={handleDeleteCancel}
         />
       )}
     </div>
