@@ -133,30 +133,23 @@ const InventoryManager = () => {
               <td>{item.price} грн</td>
               <td>{item.status}</td>
               <td>
+                <button className={styles.iconButton}>
                 <FaEdit
-                  style={{
-                    color: "#6c757d",
-                    cursor: "pointer",
-                    marginRight: "8px",
-                  }}
                   title="Редагувати"
                   onClick={() => handleEdit(item)}
                 />
+                </button>
+                
+                <button className={styles.iconButton}>
                 <FaTrashAlt
-                  style={{
-                    color: "#6c757d",
-                    cursor: "pointer",
-                    marginRight: "8px",
-                  }}
                   title="Видалити"
                   onClick={() => handleDelete(item)} 
                 />
-                <button
-                  className={styles.iconButton}
-                >
+                </button>
+
+                <button className={styles.iconButton}>
                   <FaPlus
                     title="Додати"
-                    style={{ color: "#6c757d", cursor: "pointer" }}
                   />
                 </button>
               </td>
