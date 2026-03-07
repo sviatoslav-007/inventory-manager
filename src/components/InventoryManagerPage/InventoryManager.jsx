@@ -3,13 +3,18 @@ import Header from "../Header/Header";
 import Filters from "../Filters/Filters";
 import styles from "./InventoryManager.module.css";
 import { FaEdit, FaTrashAlt, FaPlus } from "react-icons/fa";
+import EditItemModal from "../Modals/EditItemModal/EditItemModal";
+import DeleteModal from "../Modals/DeleteConfirmationModal/DeleteConfirmationModal";
 
 const InventoryManager = () => {
   const [category, setCategory] = useState("");
   const [itemStatus, setItemStatus] = useState("");
   const [priceOrder, setPriceOrder] = useState("");
+  const [editingItem, setEditingItem] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null); 
 
-  const purchaseItems = [
+  const [purchaseItems, setPurchaseItems] = useState([
     {
       name: "Принтер HP Laves/et",
       quantity: 15,
@@ -31,7 +36,7 @@ const InventoryManager = () => {
       status: "Під замовлення",
       category: "electronics",
     },
-  ];
+  ]);
 
   const categoryOptions = [
     { value: "electronics", label: "Електроніка" },
@@ -61,15 +66,35 @@ const InventoryManager = () => {
   });
 
   const handleEdit = (item) => {
-    console.log("Відкрити модалку редагування для:", item.name);
+    setEditingItem(item);
   };
 
   const handleDelete = (item) => {
-    console.log("Відкрити модалку видалення для:", item.name);
+    setItemToDelete(item); 
+    setIsDeleteModalOpen(true); 
+  };
+
+  const handleDeleteConfirm = () => {
+    const updatedList = purchaseItems.filter((item) => item !== itemToDelete);
+    setPurchaseItems(updatedList);
+    setIsDeleteModalOpen(false); 
+    setItemToDelete(null); 
+  };
+
+  const handleDeleteCancel = () => {
+    setIsDeleteModalOpen(false); 
+    setItemToDelete(null); 
   };
 
   const handleSearch = () => {
-    console.log("Фільтруємо товари");
+  };
+
+  const handleSave = (updatedItem) => {
+    const updatedList = purchaseItems.map((it) =>
+      it === editingItem ? updatedItem : it,
+    );
+    setPurchaseItems(updatedList);
+    setEditingItem(null);
   };
 
   return (
@@ -124,26 +149,37 @@ const InventoryManager = () => {
                     marginRight: "8px",
                   }}
                   title="Видалити"
-                  onClick={() => handleDelete(item)}
+                  onClick={() => handleDelete(item)} 
                 />
                 <button
                   className={styles.iconButton}
-                  onClick={() =>
-                    console.log("Додати новий елемент поруч з", item.name)
-                  }
                 >
-                  <FaPlus style={{
-                    all: "unset",       
-                    color: "#6c757d",
-                    cursor: "pointer",
-                    marginRight: "8px",
-                  }}/>
+                  <FaPlus
+                    title="Додати"
+                    style={{ color: "#6c757d", cursor: "pointer" }}
+                  />
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {editingItem && (
+        <EditItemModal
+          item={editingItem}
+          onClose={() => setEditingItem(null)}
+          onSave={handleSave}
+        />
+      )}
+
+      {isDeleteModalOpen && (
+        <DeleteModal
+          item={itemToDelete}
+          onConfirm={handleDeleteConfirm}
+          onClose={handleDeleteCancel} 
+        />
+      )}
     </div>
   );
 };
