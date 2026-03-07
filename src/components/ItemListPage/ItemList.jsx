@@ -62,7 +62,7 @@ const ItemList = () => {
   return (
     <div className={styles.container}>
       <Header />
-      <h1 className={styles.pageTitle}>Товари на складі</h1>
+      <h1 className={styles.pageTitle}>Список товарів</h1>
 
       <Filters
         category={category}

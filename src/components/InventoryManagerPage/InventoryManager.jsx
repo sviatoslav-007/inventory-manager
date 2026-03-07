@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../Header/Header";
 import Filters from "../Filters/Filters";
 import styles from "./InventoryManager.module.css";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { FaEdit, FaTrashAlt, FaPlus } from "react-icons/fa";
 
 const InventoryManager = () => {
   const [category, setCategory] = useState("");
@@ -118,10 +118,27 @@ const InventoryManager = () => {
                   onClick={() => handleEdit(item)}
                 />
                 <FaTrashAlt
-                  style={{ color: "#6c757d", cursor: "pointer" }}
+                  style={{
+                    color: "#6c757d",
+                    cursor: "pointer",
+                    marginRight: "8px",
+                  }}
                   title="Видалити"
                   onClick={() => handleDelete(item)}
                 />
+                <button
+                  className={styles.iconButton}
+                  onClick={() =>
+                    console.log("Додати новий елемент поруч з", item.name)
+                  }
+                >
+                  <FaPlus style={{
+                    all: "unset",       
+                    color: "#6c757d",
+                    cursor: "pointer",
+                    marginRight: "8px",
+                  }}/>
+                </button>
               </td>
             </tr>
           ))}

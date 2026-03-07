@@ -42,8 +42,8 @@
 }
 
 .submitButton {
-  padding: 0.5rem 1rem; /* компактніший padding */
-  font-size: 1rem; /* менший шрифт */
+  padding: 0.5rem 1rem; 
+  font-size: 1rem; 
   background-color: #007bff;
   color: white;
   border: none;
@@ -53,8 +53,8 @@
     background-color 0.3s ease,
     transform 0.2s ease;
   font-family: "Poppins", sans-serif;
-  width: auto; /* не на всю ширину */
-  min-width: 100px; /* мінімальна ширина, щоб не було занадто маленькою */
+  width: auto; 
+  min-width: 100px; 
 }
 
 .submitButton:hover {
@@ -76,4 +76,8 @@ td {
   text-align: left;
   padding: 12px;
   border-bottom: 1px solid #eee;
+}
+
+.iconButton {
+  all: unset;       
 }

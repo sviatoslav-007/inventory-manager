@@ -74,7 +74,7 @@ const Charts = () => {
   return (
     <div className={styles.chartContainer}>
       <div className={styles.chartCard}>
-        <h3 className={styles.chartCardTitle}>Статистика Товарів</h3>
+        <h3 className={styles.chartCardTitle}>Статистика закупок</h3>
         <Bar
           data={barChartData}
           options={{
@@ -102,8 +102,8 @@ const Charts = () => {
         />
       </div>
       <div className={styles.doughnutChartCard}>
-        <h3 className={styles.chartCardTitle}>Розподіл по категоріях</h3>
-        <Doughnut
+        <h3 className={styles.chartCardTitle}>Категорії</h3>
+        <Doughnut className={styles.chartSector}
           data={doughnutData}
           options={{
             responsive: true,
