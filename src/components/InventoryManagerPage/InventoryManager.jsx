@@ -144,10 +144,8 @@ const InventoryManager = () => {
                   />
                 </button>
 
-                <button className={styles.iconButton}>
-                  <Link to="/createInvoice" className={styles.iconButton}>
+                <button className={styles.iconButton} onClick={() => window.location.href = '/createInvoice'}>
                     <FaPlus title="Додати" />
-                  </Link>
                 </button>
               </td>
             </tr>

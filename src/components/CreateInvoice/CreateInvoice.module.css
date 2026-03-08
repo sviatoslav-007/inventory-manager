@@ -1,7 +1,3 @@
-body {
-  overflow: hidden;
-}
-
 .pageContainer {
   display: flex;
   flex-direction: column;
