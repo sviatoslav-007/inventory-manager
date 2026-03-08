@@ -12,8 +12,8 @@ const Filters = ({
   onCategoryChange,
   onStatusChange,
   onPriceOrderChange,
-  onSearchChange, // Пропс для обробки пошуку
-  searchQuery, // Поточний запит пошуку
+  onSearchChange, 
+  searchQuery, 
 }) => {
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery || "");
 
@@ -71,7 +71,6 @@ const Filters = ({
         ))}
       </select>
 
-      {/* Поле для пошуку */}
       <div className={styles.searchContainer}>
         <input
           type="text"
