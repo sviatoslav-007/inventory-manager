@@ -4,6 +4,8 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import HomePage from '../HomePage/HomePage';
 import ItemList from '../ItemListPage/ItemList';
 import InventoryManagerPage from '../InventoryManagerPage/InventoryManager';
+import CreateInvoice from '../CreateInvoice/CreateInvoice';
+
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
       <Route path="/homePage" element={<HomePage />} />  
       <Route path="/items" element={<ItemList />} />
       <Route path="/management" element={<InventoryManagerPage />} />
+      <Route path="/createInvoice" element={<CreateInvoice />} />
     </Routes>
   );
 }
