@@ -31,11 +31,11 @@ const CreateInvoice = () => {
 
   const totalQuantity = invoiceData.items.reduce(
     (acc, item) => acc + item.quantity,
-    0,
+    0
   );
   const totalSum = invoiceData.items.reduce(
     (acc, item) => acc + item.quantity * item.price,
-    0,
+    0
   );
 
   return (
@@ -163,6 +163,14 @@ const CreateInvoice = () => {
           </div>
           <div>
             <p>Постачальник:</p>
+            <input
+              type="text"
+              value={invoiceData.supplier}
+              onChange={(e) =>
+                handleInvoiceChange("supplier", e.target.value)
+              }
+              className={styles.input}
+            />
             <p>Підпис: __________________</p>
           </div>
         </div>

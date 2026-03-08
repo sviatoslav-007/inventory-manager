@@ -13,16 +13,15 @@ import {
 import styles from "./WordExport.module.css";
 import { FaFileWord } from "react-icons/fa";
 
-
 const WordExport = ({ invoiceData }) => {
   const exportToWord = async () => {
     const totalQuantity = invoiceData.items.reduce(
       (acc, item) => acc + item.quantity,
-      0,
+      0
     );
     const totalSum = invoiceData.items.reduce(
       (acc, item) => acc + item.quantity * item.price,
-      0,
+      0
     );
 
     const doc = new Document({
@@ -45,7 +44,6 @@ const WordExport = ({ invoiceData }) => {
           children: [
             new Paragraph({
               text: "Накладна на замовлення товару",
-              bold: true,
               size: 28,
               alignment: "center",
               spacing: { after: 240 },
@@ -87,7 +85,6 @@ const WordExport = ({ invoiceData }) => {
                             children: [
                               new TextRun({
                                 text,
-                                bold: true,
                                 font: "Times New Roman",
                                 size: 28,
                               }),
@@ -101,7 +98,7 @@ const WordExport = ({ invoiceData }) => {
                           left: 100,
                           right: 100,
                         },
-                      }),
+                      })
                   ),
                 }),
                 ...invoiceData.items.map(
@@ -134,27 +131,62 @@ const WordExport = ({ invoiceData }) => {
                               left: 100,
                               right: 100,
                             },
-                          }),
+                          })
                       ),
-                    }),
+                    })
                 ),
               ],
             }),
 
             new Paragraph({
               text: `Загальна кількість: ${totalQuantity}`,
-              bold: true,
               spacing: { before: 120 },
               alignment: "both",
             }),
             new Paragraph({
               text: `Загальна сума: ${totalSum} грн`,
-              bold: true,
               alignment: "both",
             }),
+
+            
             new Paragraph({
-              text: `Відповідальний: ${invoiceData.responsible}`,
+              children: [
+                new TextRun({
+                  text: `Відповідальний: ${invoiceData.responsible}`,
+                  font: "Times New Roman",
+                  size: 28,
+                }),
+                new TextRun({
+                  text: "                   ",
+                }),
+                new TextRun({
+                  text: `Постачальник: ${invoiceData.supplier}`,
+                  font: "Times New Roman",
+                  size: 28,
+                }),
+              ],
               alignment: "both",
+              spacing: { before: 120 },
+            }),
+
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: "Підпис_____________", 
+                  font: "Times New Roman",
+                  size: 28,
+                }),
+                new TextRun({
+                  text: "                                ", 
+                }),
+                new TextRun({
+                  text: "Підпис_____________", 
+                  font: "Times New Roman",
+                  size: 28,
+                }),
+              ],
+              alignment: "both",
+              spacing: { before: 60 },
             }),
           ],
         },
