@@ -5,6 +5,7 @@ import styles from "./InventoryManager.module.css";
 import { FaEdit, FaTrashAlt, FaPlus } from "react-icons/fa";
 import EditItemModal from "../Modals/EditItemModal/EditItemModal";
 import DeleteModal from "../Modals/DeleteConfirmationModal/DeleteConfirmationModal";
+import { Link } from "react-router-dom";
 
 const InventoryManager = () => {
   const [category, setCategory] = useState("");
@@ -144,7 +145,9 @@ const InventoryManager = () => {
                 </button>
 
                 <button className={styles.iconButton}>
-                  <FaPlus title="Додати" />
+                  <Link to="/createInvoice" className={styles.iconButton}>
+                    <FaPlus title="Додати" />
+                  </Link>
                 </button>
               </td>
             </tr>

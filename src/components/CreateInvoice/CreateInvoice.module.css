@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 .pageContainer {
   display: flex;
   flex-direction: column;
@@ -13,7 +17,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   max-width: 900px;
-  margin: 40px auto;
+  margin: 8px auto;
   position: relative; 
 }
 
