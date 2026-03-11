@@ -1,7 +1,6 @@
 import User from "../models/User.js";
 
 export const registerUser = async (req, res) => {
-  console.log("Отримано дані:", req.body);
   try {
     const { email, password } = req.body;
 
