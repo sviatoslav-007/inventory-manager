@@ -1,51 +1,69 @@
-import React, { useState } from 'react';
-import styles from './LogInPage.module.css';
-import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai'; 
+import React, { useState } from "react";
+import styles from "./LogInPage.module.css";
+import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const LogInPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const validateEmail = (email) => {
     if (!email) {
-      setEmailError('Email is required');
+      setEmailError("Email is required");
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError('Email is not valid');
+      setEmailError("Email is not valid");
     } else {
-      setEmailError('');
+      setEmailError("");
     }
   };
 
   const validatePassword = (password) => {
     if (!password) {
-      setPasswordError('Password is required');
+      setPasswordError("Password is required");
     } else {
-      setPasswordError('');
+      setPasswordError("");
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let isValid = true;
 
     if (!email) {
-      setEmailError('Email is required');
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError('Email is not valid');
+      setEmailError("Email is required");
       isValid = false;
     }
-
     if (!password) {
-      setPasswordError('Password is required');
+      setPasswordError("Password is required");
       isValid = false;
     }
 
     if (isValid) {
-      console.log('Logged in:', { email, password });
+      try {
+        const response = await fetch("http://localhost:5050/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          navigate("/homePage");
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        console.error("Помилка мережі:", error);
+        alert("Не вдалося з’єднатися з сервером");
+      }
     }
   };
 
@@ -62,14 +80,14 @@ const LogInPage = () => {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                validateEmail(e.target.value); 
+                validateEmail(e.target.value);
               }}
               className={styles.input}
               placeholder="Введіть ваш email"
             />
           </div>
-          {emailError && <p className={styles.error}>{emailError}</p>} 
-          
+          {emailError && <p className={styles.error}>{emailError}</p>}
+
           <div className={styles.inputWrapper}>
             <AiOutlineLock />
             <input
@@ -78,15 +96,17 @@ const LogInPage = () => {
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                validatePassword(e.target.value); 
+                validatePassword(e.target.value);
               }}
               className={styles.input}
               placeholder="Введіть ваш пароль"
             />
           </div>
-          {passwordError && <p className={styles.error}>{passwordError}</p>} 
-          
-          <button type="submit" className={styles.submitButton}>Увійти</button>
+          {passwordError && <p className={styles.error}>{passwordError}</p>}
+
+          <button type="submit" className={styles.submitButton}>
+            Увійти
+          </button>
         </form>
       </div>
     </div>
