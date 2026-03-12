@@ -6,10 +6,10 @@ import styles from "./AddItemModal.module.css";
 const AddItemModal = ({ onClose, onRefresh }) => {
   const [formData, setFormData] = useState({
     name: "",
-    quantity: 1,
-    price: 0,
+    quantity: "", // Порожньо спочатку, щоб не було 0
+    price: "",    // Порожньо спочатку
     status: "Наявні",
-    category: "electronics",
+    category: "", // Тепер пустий рядок для ручного введення
   });
   const [loading, setLoading] = useState(false);
 
@@ -23,26 +23,41 @@ const AddItemModal = ({ onClose, onRefresh }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "quantity" || name === "price" ? Number(value) : value,
-    }));
+    
+    // Для ціни та кількості дозволяємо лише цифри
+    if (name === "quantity" || name === "price") {
+      // Якщо поле порожнє — записуємо порожньо, інакше перетворюємо на число
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value === "" ? "" : Number(value),
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    
+    // Валідація перед відправкою (перевіряємо, що числа більше 0)
+    if (Number(formData.quantity) <= 0 || Number(formData.price) <= 0) {
+      alert("Кількість та ціна мають бути більшими за 0");
+      return;
+    }
 
+    setLoading(true);
     try {
       const response = await axios.post("http://localhost:5050/api/inventory/add", formData);
-      
       if (response.status === 201) {
         if (onRefresh) onRefresh(); 
         onClose(); 
       }
     } catch (error) {
       console.error("Помилка при додаванні товару:", error);
-      alert("Не вдалося зберегти товар у базі");
+      alert("Не вдалося зберегти товар");
     } finally {
       setLoading(false);
     }
@@ -62,7 +77,7 @@ const AddItemModal = ({ onClose, onRefresh }) => {
             <input
               name="name"
               type="text"
-              placeholder="Введіть назву..."
+              placeholder="Наприклад: Ноутбук"
               value={formData.name}
               onChange={handleChange}
               required
@@ -75,10 +90,11 @@ const AddItemModal = ({ onClose, onRefresh }) => {
               <input
                 name="quantity"
                 type="number"
+                placeholder="0"
                 value={formData.quantity}
                 onChange={handleChange}
+                className={styles.noArrows} 
                 required
-                min="1"
               />
             </div>
             <div className={styles.inputGroup}>
@@ -86,10 +102,11 @@ const AddItemModal = ({ onClose, onRefresh }) => {
               <input
                 name="price"
                 type="number"
+                placeholder="0.00"
                 value={formData.price}
                 onChange={handleChange}
+                className={styles.noArrows}
                 required
-                min="0"
               />
             </div>
           </div>
@@ -104,17 +121,17 @@ const AddItemModal = ({ onClose, onRefresh }) => {
 
           <div className={styles.inputGroup}>
             <label>Категорія</label>
-            <select name="category" value={formData.category} onChange={handleChange}>
-              <option value="electronics">Електроніка</option>
-              <option value="furniture">Меблі</option>
-            </select>
+            <input
+              name="category"
+              type="text"
+              placeholder="Наприклад: Електроніка"
+              value={formData.category}
+              onChange={handleChange}
+              required
+            />
           </div>
 
-          <button 
-            type="submit" 
-            className={styles.saveButton} 
-            disabled={loading}
-          >
+          <button type="submit" className={styles.saveButton} disabled={loading}>
             {loading ? "Збереження..." : "Додати товар"}
           </button>
         </form>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Filters.module.css";
 import { FaSearch } from "react-icons/fa";
 
@@ -16,29 +16,30 @@ const Filters = ({
   searchQuery,
   children, 
 }) => {
+  // Синхронізуємо локальний пошук із зовнішнім, якщо він зміниться ззовні
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery || "");
 
-  const handleSearchChange = (e) => {
-    setLocalSearchQuery(e.target.value);
-    if (onSearchChange) {
-      onSearchChange(e.target.value);
-    }
-  };
+  useEffect(() => {
+    setLocalSearchQuery(searchQuery);
+  }, [searchQuery]);
 
-  const handleSearchSubmit = () => {
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setLocalSearchQuery(value);
     if (onSearchChange) {
-      onSearchChange(localSearchQuery);
+      onSearchChange(value); // Миттєва фільтрація при наборі
     }
   };
 
   return (
     <div className={styles.filters}>
+      {/* Фільтр Категорії */}
       <select
         value={category}
         onChange={onCategoryChange}
         className={styles.select}
       >
-        <option value="">Категорія</option>
+        <option value="">Усі категорії</option>
         {categoryOptions.map((cat, idx) => (
           <option key={idx} value={cat.value}>
             {cat.label}
@@ -46,12 +47,13 @@ const Filters = ({
         ))}
       </select>
 
+      {/* Фільтр Статусу — саме тут працює твій setItemStatus */}
       <select
         value={status}
         onChange={onStatusChange}
         className={styles.select}
       >
-        <option value="">Статус</option>
+        <option value="">Будь-який статус</option>
         {statusOptions.map((stat, idx) => (
           <option key={idx} value={stat.value}>
             {stat.label}
@@ -59,12 +61,13 @@ const Filters = ({
         ))}
       </select>
 
+      {/* Сортування Ціни */}
       <select
         value={priceOrder}
         onChange={onPriceOrderChange}
         className={styles.select}
       >
-        <option value="">Ціна</option>
+        <option value="">Сортувати ціну</option>
         {priceOptions.map((opt, idx) => (
           <option key={idx} value={opt.value}>
             {opt.label}
@@ -72,17 +75,18 @@ const Filters = ({
         ))}
       </select>
 
+      {/* Пошук */}
       <div className={styles.searchContainer}>
         <input
           type="text"
           className={styles.searchInput}
           value={localSearchQuery}
-          onChange={handleSearchChange}
-          placeholder="Пошук..."
+          onChange={handleInputChange}
+          placeholder="Назва товару..."
         />
-        <button className={styles.searchButton} onClick={handleSearchSubmit}>
+        <div className={styles.searchIconWrapper}>
           <FaSearch />
-        </button>
+        </div>
       </div>
 
       {children}
