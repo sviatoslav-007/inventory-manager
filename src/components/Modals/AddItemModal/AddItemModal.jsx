@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
+import axios from "axios";
 import styles from "./AddItemModal.module.css";
 
-const AddItemModal = ({ onClose, onAdd }) => {
+const AddItemModal = ({ onClose, onRefresh }) => {
   const [formData, setFormData] = useState({
     name: "",
     quantity: 1,
@@ -10,8 +11,8 @@ const AddItemModal = ({ onClose, onAdd }) => {
     status: "Наявні",
     category: "electronics",
   });
+  const [loading, setLoading] = useState(false);
 
-  // 1. Закриття на клавішу Escape
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") onClose();
@@ -28,15 +29,27 @@ const AddItemModal = ({ onClose, onAdd }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onAdd(formData);
+    setLoading(true);
+
+    try {
+      const response = await axios.post("http://localhost:5050/api/inventory/add", formData);
+      
+      if (response.status === 201) {
+        if (onRefresh) onRefresh(); 
+        onClose(); 
+      }
+    } catch (error) {
+      console.error("Помилка при додаванні товару:", error);
+      alert("Не вдалося зберегти товар у базі");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    // 2. Клік на Overlay закриває модалку
     <div className={styles.modalOverlay} onClick={onClose}>
-      {/* 3. stopPropagation запобігає закриттю при кліку всередині самої модалки */}
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
           <h2>Додати новий товар</h2>
@@ -97,8 +110,12 @@ const AddItemModal = ({ onClose, onAdd }) => {
             </select>
           </div>
 
-          <button type="submit" className={styles.saveButton}>
-            Додати товар
+          <button 
+            type="submit" 
+            className={styles.saveButton} 
+            disabled={loading}
+          >
+            {loading ? "Збереження..." : "Додати товар"}
           </button>
         </form>
       </div>
