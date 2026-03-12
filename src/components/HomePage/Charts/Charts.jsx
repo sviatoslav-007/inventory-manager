@@ -1,6 +1,6 @@
-import React from "react";
-import { Bar } from "react-chartjs-2";
-import { Doughnut } from "react-chartjs-2";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Bar, Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -28,44 +28,58 @@ ChartJS.register(
 );
 
 const Charts = () => {
+  const [inventoryData, setInventoryData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5050/api/inventory/all");
+        setInventoryData(response.data);
+      } catch (error) {
+        console.error("Помилка завантаження даних для графіків:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // --- ОБРОБКА ДАНИХ ДЛЯ КАТЕГОРІЙ (Doughnut & Bar) ---
+  
+  // Рахуємо кількість товарів у кожній категорії
+  const categoryCounts = inventoryData.reduce((acc, item) => {
+    const cat = item.category || "Інше";
+    acc[cat] = (acc[cat] || 0) + 1; // Рахуємо кількість записів
+    return acc;
+  }, {});
+
+  const labels = Object.keys(categoryCounts);
+  const counts = Object.values(categoryCounts);
+
+  // Дані для стовпчикового графіка (Bar)
   const barChartData = {
-    labels: ["Січ", "Лют", "Бер", "Кві", "Тра", "Чер", "Лип"],
+    labels: labels,
     datasets: [
       {
-        data: [12, 19, 3, 5, 2, 3, 13],
-        backgroundColor: [
-          "#6EC1E4", 
-          "#378F97", 
-          "#0E4C6D", 
-          "#6EC1E4", 
-          "#378F97", 
-          "#0E4C6D", 
-          "#6EC1E4", 
-        ],
-        borderColor: [
-          "#6EC1E4", 
-          "#378F97", 
-          "#0E4C6D", 
-          "#6EC1E4", 
-          "#378F97", 
-          "#0E4C6D", 
-          "#6EC1E4", 
-        ],
+        label: "Кількість позицій",
+        data: counts,
+        backgroundColor: ["#6EC1E4", "#378F97", "#0E4C6D", "#4A90E2", "#50E3C2"],
         borderWidth: 1,
       },
     ],
   };
 
+  // Дані для кругового графіка (Doughnut) по статусах
+  const statusCounts = inventoryData.reduce((acc, item) => {
+    const status = item.status || "Не вказано";
+    acc[status] = (acc[status] || 0) + 1;
+    return acc;
+  }, {});
+
   const doughnutData = {
-    labels: ["В наявності", "В резерві", "Продано"],
+    labels: Object.keys(statusCounts),
     datasets: [
       {
-        data: [60, 20, 20],
-        backgroundColor: [
-          "#6EC1E4",
-          "#378F97", 
-          "#0E4C6D", 
-        ],
+        data: Object.values(statusCounts),
+        backgroundColor: ["#6EC1E4", "#378F97", "#0E4C6D"],
         hoverOffset: 4,
       },
     ],
@@ -74,44 +88,31 @@ const Charts = () => {
   return (
     <div className={styles.chartContainer}>
       <div className={styles.chartCard}>
-        <h3 className={styles.chartCardTitle}>Статистика закупок</h3>
+        <h3 className={styles.chartCardTitle}>Товари за категоріями</h3>
         <Bar
           data={barChartData}
           options={{
             responsive: true,
-            plugins: {
-              legend: {
-                display: false,
-              },
-            },
+            plugins: { legend: { display: false } },
             scales: {
-              x: {
-                grid: {
-                  display: false, 
-                },
-              },
-              y: {
-                grid: {
-                  display: false,
-                },
-              },
+              x: { grid: { display: false } },
+              y: { grid: { display: false }, beginAtZero: true },
             },
           }}
-          height={150} 
-          width={350}  
+          height={150}
+          width={350}
         />
       </div>
       <div className={styles.doughnutChartCard}>
-        <h3 className={styles.chartCardTitle}>Категорії</h3>
-        <Doughnut className={styles.chartSector}
+        <h3 className={styles.chartCardTitle}>Статус товарів</h3>
+        <Doughnut
+          className={styles.chartSector}
           data={doughnutData}
           options={{
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: {
-                position: "top",
-              },
+              legend: { position: "top" },
             },
           }}
           height={200}
