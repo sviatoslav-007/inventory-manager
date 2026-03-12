@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import axios from "axios";
 import Header from "../Header/Header";
 import Filters from "../Filters/Filters";
 import styles from "./ItemList.module.css";
 
 const ItemList = () => {
-  // --- СТАН (STATE) ---
   const [purchaseItems, setPurchaseItems] = useState([]);
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("");
@@ -13,53 +12,48 @@ const ItemList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // --- ЛОГІКА ЗАВАНТАЖЕННЯ (БЕЗПЕЧНА) ---
- // 1. Оновлена функція fetchItems (повертає дані, а не встановлює їх)
-const fetchItems = useCallback(async () => {
-  try {
-    const response = await axios.get("http://localhost:5050/api/inventory/all");
-    return response.data; // Повертаємо дані для обробки в ефекті
-  } catch (error) {
-    console.error("Помилка завантаження товарів:", error);
-    return null;
-  }
-}, []);
-
-// 2. Оновлений useEffect
-useEffect(() => {
-  let isMounted = true;
-
-  const loadData = async () => {
-    // Виконуємо асинхронну дію
-    const data = await fetchItems();
-
-    // Оновлюємо стан тільки якщо компонент все ще в DOM 
-    // і дані дійсно прийшли
-    if (isMounted && data) {
-      setPurchaseItems(data);
-      setLoading(false);
-    } else if (isMounted) {
-      setLoading(false);
+  const fetchItems = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5050/api/inventory/all",
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Помилка завантаження товарів:", error);
+      return null;
     }
-  };
+  }, []);
 
-  loadData();
+  useEffect(() => {
+    let isMounted = true;
 
-  return () => {
-    isMounted = false; // Очищення
-  };
-}, [fetchItems]); // fetchItems стабільна завдяки useCallback
+    const loadData = async () => {
+      const data = await fetchItems();
+      if (isMounted && data) {
+        setPurchaseItems(data);
+        setLoading(false);
+      } else if (isMounted) {
+        setLoading(false);
+      }
+    };
 
-  // --- ДИНАМІЧНІ ОПЦІЇ ДЛЯ ФІЛЬТРІВ ---
-  const categoryOptions = [...new Set(purchaseItems.map((item) => item.category))]
-    .filter(Boolean)
-    .map((cat) => ({
-      value: cat,
-      label: cat.charAt(0).toUpperCase() + cat.slice(1),
-    }));
+    loadData();
+    return () => {
+      isMounted = false;
+    };
+  }, [fetchItems]);
+
+  const categoryOptions = useMemo(() => {
+    return [...new Set(purchaseItems.map((item) => item.category))]
+      .filter(Boolean)
+      .map((cat) => ({
+        value: cat,
+        label: cat.charAt(0).toUpperCase() + cat.slice(1),
+      }));
+  }, [purchaseItems]);
 
   const statusOptions = [
-    { value: "Наявні", label: "Наявні"  },
+    { value: "Наявні", label: "Наявні" },
     { value: "Під замовлення", label: "Під замовлення" },
   ];
 
@@ -68,11 +62,12 @@ useEffect(() => {
     { value: "desc", label: "За спаданням" },
   ];
 
-  // --- ФІЛЬТРАЦІЯ ТА СОРТУВАННЯ ---
   const filteredItems = purchaseItems.filter((item) => {
     const matchesCategory = category ? item.category === category : true;
     const matchesStatus = status ? item.status === status : true;
-    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = item.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
     return matchesCategory && matchesStatus && matchesSearch;
   });
 
@@ -115,7 +110,9 @@ useEffect(() => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="5" className={styles.loadingText}>Завантаження даних...</td>
+                <td colSpan="5" className={styles.loadingText}>
+                  Завантаження даних...
+                </td>
               </tr>
             ) : sortedItems.length > 0 ? (
               sortedItems.map((item) => (
@@ -124,10 +121,12 @@ useEffect(() => {
                   <td className={styles.categoryCell}>{item.category}</td>
                   <td>{item.quantity}</td>
                   <td>{item.price} грн</td>
-                  <td>
+                  <td className={styles.statusCell}>
                     <span
                       className={`${styles.statusBadge} ${
-                        item.status === "Наявні" ? styles.available : styles.backorder
+                        item.status === "Наявні"
+                          ? styles.available
+                          : styles.backorder
                       }`}
                     >
                       {item.status}
@@ -137,7 +136,9 @@ useEffect(() => {
               ))
             ) : (
               <tr>
-                <td colSpan="5" className={styles.noData}>Товарів не знайдено</td>
+                <td colSpan="5" className={styles.noData}>
+                  Товарів не знайдено
+                </td>
               </tr>
             )}
           </tbody>

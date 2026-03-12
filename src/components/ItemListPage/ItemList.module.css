@@ -1,8 +1,8 @@
 .container {
-  padding: 20px;
+  padding: 20px 40px;
   background-color: #fff;
   font-family: Arial, sans-serif;
-  height: 100vh;
+  min-height: 100vh;
   margin-top: 70px;
   display: flex;
   flex-direction: column;
@@ -10,16 +10,102 @@
   background-image: url("/src/assets/mainBackground.png");
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .pageTitle {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: bold;
   color: #333;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-family: "Arial", sans-serif;
   padding-bottom: 10px;
+}
+
+.tableWrapper {
+  width: 100%;
+  max-width: 1330px;
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: auto;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.tableWrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #f7f7f7;
+  font-weight: bold;
+  border-bottom: 2px solid #f1f1f1;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.statusBadge {
+  padding: 6px 18px;
+  border-radius: 50px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: default;
+  text-align: center;
+  white-space: nowrap;
+  border-style: solid;
+  border-width: 3px;
+  min-width: 110px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+
+.available {
+  border-color: #40c057;
+  color: #2b8a3e;
+}
+
+.backorder {
+  border-color: #fd7e14;
+  color: #e8590c;
+}
+
+.statusCell {
+  text-align: center;
+  vertical-align: middle;
+  padding: 8px !important;
+  white-space: normal !important;
 }
 
 .select {
@@ -31,90 +117,4 @@
   width: 200px;
   box-sizing: border-box;
   margin-bottom: 10px;
-  transition: all 0.3s ease;
-}
-
-.select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.invoiceTable {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
-  width: 100%;
-  max-width: 1330px;
-  transition: transform 0.3s ease;
-}
-
-.invoiceTable:hover {
-  transform: translateY(-5px);
-}
-
-.invoiceTable h3 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #f1f1f1;
-}
-
-.table {
-  width: 100%;
-  margin-top: 20px;
-}
-
-th,
-td {
-  padding: 12px;
-}
-
-th {
-  background-color: #f7f7f7;
-  font-weight: bold;
-  border-bottom: 2px solid #f1f1f1;
-}
-
-td {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.statusBadge {
-  padding: 6px 18px;         
-  border-radius: 50px;      
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 13px;          
-  font-weight: 600;      
-  cursor: default;
-  text-align: center;
-  white-space: nowrap;
-  border-style: solid;       
-  border-width: 2px;         
-  width: 90px;         
-  background-color: #fff;   
-  transition: all 0.2s ease; 
-}
-
-.available {
-  border-color: #40c057;     
-  color: #2b8a3e;           
-}
-
-.backorder {
-  border-color: #fd7e14;     
-  color: #e8590c;          
-}
-
-.statusCell {
-  text-align: center;
-  vertical-align: middle;
-  padding: 8px !important;   
-  white-space: normal !important; 
 }

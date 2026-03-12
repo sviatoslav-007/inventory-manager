@@ -29,7 +29,7 @@ const InventoryManager = () => {
     } catch (error) {
       console.error("Помилка завантаження товарів:", error);
     }
-  }, []); 
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -50,7 +50,7 @@ const InventoryManager = () => {
     loadData();
 
     return () => {
-      isMounted = false; 
+      isMounted = false;
     };
   }, []);
 
@@ -150,59 +150,61 @@ const InventoryManager = () => {
         </button>
       </Filters>
 
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Назва Товару</th>
-            <th>Кількість</th>
-            <th>Ціна</th>
-            <th>Статус</th>
-            <th>Дії</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedItems.length > 0 ? (
-            sortedItems.map((item) => (
-              <tr key={item._id}>
-                <td>{item.name}</td>
-                <td>{item.quantity}</td>
-                <td>{item.price} грн</td>
-                <td>
-                  <span
-                    className={
-                      item.status === "Наявні"
-                        ? styles.statusInStock
-                        : styles.statusOrder
-                    }
-                  >
-                    {item.status}
-                  </span>
-                </td>
-                <td className={styles.actionsCell}>
-                  <button
-                    className={styles.iconButton}
-                    onClick={() => handleEdit(item)}
-                  >
-                    <FaEdit title="Редагувати" />
-                  </button>
-                  <button
-                    className={styles.iconButton}
-                    onClick={() => handleDeleteClick(item)}
-                  >
-                    <FaTrashAlt title="Видалити" />
-                  </button>
+      <div className={styles.tableWrapper}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Назва Товару</th>
+              <th>Кількість</th>
+              <th>Ціна</th>
+              <th>Статус</th>
+              <th>Дії</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedItems.length > 0 ? (
+              sortedItems.map((item) => (
+                <tr key={item._id}>
+                  <td>{item.name}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.price} грн</td>
+                  <td>
+                    <span
+                      className={
+                        item.status === "Наявні"
+                          ? styles.statusInStock
+                          : styles.statusOrder
+                      }
+                    >
+                      {item.status}
+                    </span>
+                  </td>
+                  <td className={styles.actionsCell}>
+                    <button
+                      className={styles.iconButton}
+                      onClick={() => handleEdit(item)}
+                    >
+                      <FaEdit title="Редагувати" />
+                    </button>
+                    <button
+                      className={styles.iconButton}
+                      onClick={() => handleDeleteClick(item)}
+                    >
+                      <FaTrashAlt title="Видалити" />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className={styles.noData}>
+                  Товарів не знайдено
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="5" className={styles.noData}>
-                Товарів не знайдено
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {isAddModalOpen && (
         <AddItemModal
