@@ -1,44 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import axios from "axios";
 import Header from "../Header/Header";
 import Filters from "../Filters/Filters";
 import styles from "./ItemList.module.css";
 
 const ItemList = () => {
+  // --- СТАН (STATE) ---
+  const [purchaseItems, setPurchaseItems] = useState([]);
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("");
   const [priceOrder, setPriceOrder] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const items = [
-    {
-      name: "Комп'ютерний стіл",
-      quantity: 10,
-      price: 1200,
-      status: "В наявності",
-      category: "furniture",
-    },
-    {
-      name: "Офісне крісло",
-      quantity: 15,
-      price: 850,
-      status: "В наявності",
-      category: "furniture",
-    },
-    {
-      name: "Принтер",
-      quantity: 5,
-      price: 3500,
-      status: "Під замовлення",
-      category: "electronics",
-    },
-  ];
+  // --- ЛОГІКА ЗАВАНТАЖЕННЯ (БЕЗПЕЧНА) ---
+ // 1. Оновлена функція fetchItems (повертає дані, а не встановлює їх)
+const fetchItems = useCallback(async () => {
+  try {
+    const response = await axios.get("http://localhost:5050/api/inventory/all");
+    return response.data; // Повертаємо дані для обробки в ефекті
+  } catch (error) {
+    console.error("Помилка завантаження товарів:", error);
+    return null;
+  }
+}, []);
 
-  const categoryOptions = [
-    { value: "electronics", label: "Електроніка" },
-    { value: "furniture", label: "Меблі" },
-  ];
+// 2. Оновлений useEffect
+useEffect(() => {
+  let isMounted = true;
+
+  const loadData = async () => {
+    // Виконуємо асинхронну дію
+    const data = await fetchItems();
+
+    // Оновлюємо стан тільки якщо компонент все ще в DOM 
+    // і дані дійсно прийшли
+    if (isMounted && data) {
+      setPurchaseItems(data);
+      setLoading(false);
+    } else if (isMounted) {
+      setLoading(false);
+    }
+  };
+
+  loadData();
+
+  return () => {
+    isMounted = false; // Очищення
+  };
+}, [fetchItems]); // fetchItems стабільна завдяки useCallback
+
+  // --- ДИНАМІЧНІ ОПЦІЇ ДЛЯ ФІЛЬТРІВ ---
+  const categoryOptions = [...new Set(purchaseItems.map((item) => item.category))]
+    .filter(Boolean)
+    .map((cat) => ({
+      value: cat,
+      label: cat.charAt(0).toUpperCase() + cat.slice(1),
+    }));
 
   const statusOptions = [
-    { value: "В наявності", label: "В наявності" },
+    { value: "Наявні", label: "Наявні"  },
     { value: "Під замовлення", label: "Під замовлення" },
   ];
 
@@ -47,13 +68,15 @@ const ItemList = () => {
     { value: "desc", label: "За спаданням" },
   ];
 
-  const filteredItems = items.filter(
-    (item) =>
-      (category ? item.category === category : true) &&
-      (status ? item.status === status : true),
-  );
+  // --- ФІЛЬТРАЦІЯ ТА СОРТУВАННЯ ---
+  const filteredItems = purchaseItems.filter((item) => {
+    const matchesCategory = category ? item.category === category : true;
+    const matchesStatus = status ? item.status === status : true;
+    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesStatus && matchesSearch;
+  });
 
-  const sortedItems = filteredItems.sort((a, b) => {
+  const sortedItems = [...filteredItems].sort((a, b) => {
     if (priceOrder === "asc") return a.price - b.price;
     if (priceOrder === "desc") return b.price - a.price;
     return 0;
@@ -68,40 +91,58 @@ const ItemList = () => {
         category={category}
         status={status}
         priceOrder={priceOrder}
+        searchQuery={searchQuery}
         categoryOptions={categoryOptions}
         statusOptions={statusOptions}
         priceOptions={priceOptions}
         onCategoryChange={(e) => setCategory(e.target.value)}
         onStatusChange={(e) => setStatus(e.target.value)}
         onPriceOrderChange={(e) => setPriceOrder(e.target.value)}
+        onSearchChange={(val) => setSearchQuery(val)}
       />
 
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Назва Товару</th>
-            <th>Кількість</th>
-            <th>Ціна</th>
-            <th>Статус</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedItems.map((item, index) => (
-            <tr key={index}>
-              <td>{item.name}</td>
-              <td>{item.quantity}</td>
-              <td>{item.price} грн</td>
-              <td
-                className={`${styles.status} ${
-                  item.status === "В наявності" ? styles.available : ""
-                } ${item.status === "Під замовлення" ? styles.backorder : ""}`}
-              >
-                {item.status}
-              </td>
+      <div className={styles.tableWrapper}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Назва Товару</th>
+              <th>Категорія</th>
+              <th>Кількість</th>
+              <th>Ціна</th>
+              <th>Статус</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="5" className={styles.loadingText}>Завантаження даних...</td>
+              </tr>
+            ) : sortedItems.length > 0 ? (
+              sortedItems.map((item) => (
+                <tr key={item._id}>
+                  <td>{item.name}</td>
+                  <td className={styles.categoryCell}>{item.category}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.price} грн</td>
+                  <td>
+                    <span
+                      className={`${styles.statusBadge} ${
+                        item.status === "Наявні" ? styles.available : styles.backorder
+                      }`}
+                    >
+                      {item.status}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className={styles.noData}>Товарів не знайдено</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

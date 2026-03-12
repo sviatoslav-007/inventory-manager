@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"; 
-import axios from "axios"; 
+import React, { useState, useEffect, useCallback } from "react";
+import axios from "axios";
 import Header from "../Header/Header";
 import Filters from "../Filters/Filters";
 import styles from "./InventoryManager.module.css";
@@ -9,6 +9,7 @@ import DeleteModal from "../Modals/DeleteConfirmationModal/DeleteConfirmationMod
 import AddItemModal from "../Modals/AddItemModal/AddItemModal";
 
 const InventoryManager = () => {
+  const [purchaseItems, setPurchaseItems] = useState([]);
   const [category, setCategory] = useState("");
   const [itemStatus, setItemStatus] = useState("");
   const [priceOrder, setPriceOrder] = useState("");
@@ -19,10 +20,7 @@ const InventoryManager = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
 
-  const [purchaseItems, setPurchaseItems] = useState([]);
-
-
-  const fetchItems = async () => {
+  const fetchItems = useCallback(async () => {
     try {
       const response = await axios.get(
         "http://localhost:5050/api/inventory/all",
@@ -31,12 +29,12 @@ const InventoryManager = () => {
     } catch (error) {
       console.error("Помилка завантаження товарів:", error);
     }
-  };
+  }, []); 
 
   useEffect(() => {
     let isMounted = true;
 
-    const fetchItems = async () => {
+    const loadData = async () => {
       try {
         const response = await axios.get(
           "http://localhost:5050/api/inventory/all",
@@ -45,21 +43,25 @@ const InventoryManager = () => {
           setPurchaseItems(response.data);
         }
       } catch (error) {
-        console.error("Помилка завантаження товарів:", error);
+        console.error("Помилка:", error);
       }
     };
 
-    fetchItems();
+    loadData();
 
     return () => {
-      isMounted = false;
+      isMounted = false; 
     };
   }, []);
 
   const categoryOptions = [
-    { value: "electronics", label: "Електроніка" },
-    { value: "furniture", label: "Меблі" },
-  ];
+    ...new Set(purchaseItems.map((item) => item.category)),
+  ]
+    .filter(Boolean)
+    .map((cat) => ({
+      value: cat,
+      label: cat.charAt(0).toUpperCase() + cat.slice(1),
+    }));
 
   const statusOptions = [
     { value: "Наявні", label: "Наявні" },
@@ -86,25 +88,21 @@ const InventoryManager = () => {
     return 0;
   });
 
-  const handleRefresh = () => {
-    fetchItems();
-  };
-
-  const handleEdit = (item) => {
-    setEditingItem(item);
-  };
+  const handleEdit = (item) => setEditingItem(item);
 
   const handleSaveEdit = async (updatedData) => {
-  try {
-    await axios.put(`http://localhost:5050/api/inventory/update/${editingItem._id}`, updatedData);
-    
-    fetchItems(); 
-    setEditingItem(null);
-  } catch (error) {
-    console.error("Помилка оновлення товару:", error);
-    alert("Не вдалося зберегти зміни");
-  }
-};
+    try {
+      await axios.put(
+        `http://localhost:5050/api/inventory/update/${editingItem._id}`,
+        updatedData,
+      );
+      fetchItems();
+      setEditingItem(null);
+    } catch (error) {
+      console.error("Помилка оновлення:", error);
+      alert("Не вдалося зберегти зміни");
+    }
+  };
 
   const handleDeleteClick = (item) => {
     setItemToDelete(item);
@@ -112,20 +110,19 @@ const InventoryManager = () => {
   };
 
   const handleDeleteConfirm = async () => {
-  if (!itemToDelete) return;
-
-  try {
-    await axios.delete(`http://localhost:5050/api/inventory/delete/${itemToDelete._id}`);
-    
-    fetchItems(); 
-    
-    setIsDeleteModalOpen(false);
-    setItemToDelete(null);
-  } catch (error) {
-    console.error("Помилка видалення:", error);
-    alert("Не вдалося видалити товар");
-  }
-};
+    if (!itemToDelete) return;
+    try {
+      await axios.delete(
+        `http://localhost:5050/api/inventory/delete/${itemToDelete._id}`,
+      );
+      fetchItems();
+      setIsDeleteModalOpen(false);
+      setItemToDelete(null);
+    } catch (error) {
+      console.error("Помилка видалення:", error);
+      alert("Не вдалося видалити товар");
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -210,7 +207,7 @@ const InventoryManager = () => {
       {isAddModalOpen && (
         <AddItemModal
           onClose={() => setIsAddModalOpen(false)}
-          onRefresh={handleRefresh}
+          onRefresh={fetchItems}
         />
       )}
 

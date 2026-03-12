@@ -84,26 +84,37 @@ td {
   overflow: hidden;
 }
 
-.status {
-  color: black;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
+.statusBadge {
+  padding: 6px 18px;         
+  border-radius: 50px;      
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  font-size: 12px;
-  width: 100px;
+  font-size: 13px;          
+  font-weight: 600;      
   cursor: default;
   text-align: center;
   white-space: nowrap;
+  border-style: solid;       
+  border-width: 2px;         
+  width: 90px;         
+  background-color: #fff;   
+  transition: all 0.2s ease; 
 }
 
-.status.available {
-  background-color: #c1eac1;
+.available {
+  border-color: #40c057;     
+  color: #2b8a3e;           
 }
 
-.status.backorder {
-  background-color: #fff3b0;
-  color: #333;
+.backorder {
+  border-color: #fd7e14;     
+  color: #e8590c;          
+}
+
+.statusCell {
+  text-align: center;
+  vertical-align: middle;
+  padding: 8px !important;   
+  white-space: normal !important; 
 }

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styles from "./Filters.module.css";
-import { FaSearch } from "react-icons/fa";
 
 const Filters = ({
   category,
@@ -25,26 +24,20 @@ const Filters = ({
     }
   };
 
-  const handleSearchSubmit = () => {
-    if (onSearchChange) {
-      onSearchChange(localSearchQuery);
-    }
-  };
-
   return (
     <div className={styles.filters}>
       <select
-        value={category}
-        onChange={onCategoryChange}
-        className={styles.select}
-      >
-        <option value="">Категорія</option>
-        {categoryOptions.map((cat, idx) => (
-          <option key={idx} value={cat.value}>
-            {cat.label}
-          </option>
-        ))}
-      </select>
+  value={category}
+  onChange={onCategoryChange}
+  className={styles.select}
+>
+  <option value="">Всі категорії</option> {/* Змінили "Категорія" на "Всі категорії" */}
+  {categoryOptions.map((cat, idx) => (
+    <option key={idx} value={cat.value}>
+      {cat.label}
+    </option>
+  ))}
+</select>
 
       <select
         value={status}
@@ -80,9 +73,6 @@ const Filters = ({
           onChange={handleSearchChange}
           placeholder="Пошук..."
         />
-        <button className={styles.searchButton} onClick={handleSearchSubmit}>
-          <FaSearch />
-        </button>
       </div>
 
       {children}
