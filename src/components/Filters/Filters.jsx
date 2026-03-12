@@ -12,8 +12,9 @@ const Filters = ({
   onCategoryChange,
   onStatusChange,
   onPriceOrderChange,
-  onSearchChange, 
-  searchQuery, 
+  onSearchChange,
+  searchQuery,
+  children, 
 }) => {
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery || "");
 
@@ -79,13 +80,12 @@ const Filters = ({
           onChange={handleSearchChange}
           placeholder="Пошук..."
         />
-        <button
-          className={styles.searchButton}
-          onClick={handleSearchSubmit}
-        >
+        <button className={styles.searchButton} onClick={handleSearchSubmit}>
           <FaSearch />
         </button>
       </div>
+
+      {children}
     </div>
   );
 };

@@ -5,19 +5,19 @@ import styles from "./InventoryManager.module.css";
 import { FaEdit, FaTrashAlt, FaPlus } from "react-icons/fa";
 import EditItemModal from "../Modals/EditItemModal/EditItemModal";
 import DeleteModal from "../Modals/DeleteConfirmationModal/DeleteConfirmationModal";
-import { Link } from "react-router-dom";
 
 const InventoryManager = () => {
   const [category, setCategory] = useState("");
   const [itemStatus, setItemStatus] = useState("");
   const [priceOrder, setPriceOrder] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [editingItem, setEditingItem] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
 
   const [purchaseItems, setPurchaseItems] = useState([
     {
-      name: "Принтер HP Laves/et",
+      name: "Принтер HP LaserJet",
       quantity: 15,
       price: 3500,
       status: "Наявні",
@@ -54,21 +54,22 @@ const InventoryManager = () => {
     { value: "desc", label: "За спаданням" },
   ];
 
-  const filteredItems = purchaseItems.filter(
-    (item) =>
-      (category ? item.category === category : true) &&
-      (itemStatus ? item.status === itemStatus : true),
-  );
+  const filteredItems = purchaseItems.filter((item) => {
+    const matchesCategory = category ? item.category === category : true;
+    const matchesStatus = itemStatus ? item.status === itemStatus : true;
+    const matchesSearch = item.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesStatus && matchesSearch;
+  });
 
-  const sortedItems = filteredItems.sort((a, b) => {
+  const sortedItems = [...filteredItems].sort((a, b) => {
     if (priceOrder === "asc") return a.price - b.price;
     if (priceOrder === "desc") return b.price - a.price;
     return 0;
   });
 
-  const handleEdit = (item) => {
-    setEditingItem(item);
-  };
+  const handleEdit = (item) => setEditingItem(item);
 
   const handleDelete = (item) => {
     setItemToDelete(item);
@@ -76,24 +77,14 @@ const InventoryManager = () => {
   };
 
   const handleDeleteConfirm = () => {
-    const updatedList = purchaseItems.filter((item) => item !== itemToDelete);
-    setPurchaseItems(updatedList);
+    setPurchaseItems(purchaseItems.filter((item) => item !== itemToDelete));
     setIsDeleteModalOpen(false);
-    setItemToDelete(null);
   };
-
-  const handleDeleteCancel = () => {
-    setIsDeleteModalOpen(false);
-    setItemToDelete(null);
-  };
-
-  const handleSearch = () => {};
 
   const handleSave = (updatedItem) => {
-    const updatedList = purchaseItems.map((it) =>
-      it === editingItem ? updatedItem : it,
+    setPurchaseItems(
+      purchaseItems.map((it) => (it === editingItem ? updatedItem : it)),
     );
-    setPurchaseItems(updatedList);
     setEditingItem(null);
   };
 
@@ -104,16 +95,24 @@ const InventoryManager = () => {
 
       <Filters
         category={category}
-        itemStatus={itemStatus}
+        status={itemStatus}
         priceOrder={priceOrder}
+        searchQuery={searchQuery}
         categoryOptions={categoryOptions}
         statusOptions={statusOptions}
         priceOptions={priceOptions}
         onCategoryChange={(e) => setCategory(e.target.value)}
         onStatusChange={(e) => setItemStatus(e.target.value)}
         onPriceOrderChange={(e) => setPriceOrder(e.target.value)}
-        onSearch={handleSearch}
-      />
+        onSearchChange={(value) => setSearchQuery(value)}
+      >
+        <button
+          className={styles.addMainButton}
+          onClick={() => console.log("Відкрити модалку створення")}
+        >
+          <FaPlus /> Додати
+        </button>
+      </Filters>
 
       <table className={styles.table}>
         <thead>
@@ -132,21 +131,19 @@ const InventoryManager = () => {
               <td>{item.quantity}</td>
               <td>{item.price} грн</td>
               <td>{item.status}</td>
-              <td>
-                <button className={styles.iconButton}>
-                  <FaEdit title="Редагувати" onClick={() => handleEdit(item)} />
+              <td className={styles.actionsCell}>
+                <button
+                  className={styles.iconButton}
+                  onClick={() => handleEdit(item)}
+                >
+                  <FaEdit title="Редагувати" />
                 </button>
-
-                <button className={styles.iconButton}>
-                  <FaTrashAlt
-                    title="Видалити"
-                    onClick={() => handleDelete(item)}
-                  />
+                <button
+                  className={styles.iconButton}
+                  onClick={() => handleDelete(item)}
+                >
+                  <FaTrashAlt title="Видалити" />
                 </button>
-
-                {/* <button className={styles.iconButton} onClick={() => window.location.href = '/createInvoice'}>
-                    <FaPlus title="Додати" />
-                </button> */}
               </td>
             </tr>
           ))}
@@ -165,7 +162,7 @@ const InventoryManager = () => {
         <DeleteModal
           item={itemToDelete}
           onConfirm={handleDeleteConfirm}
-          onClose={handleDeleteCancel}
+          onClose={() => setIsDeleteModalOpen(false)}
         />
       )}
     </div>

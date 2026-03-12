@@ -91,3 +91,32 @@ td {
   color: #636669;
   transform: scale(1.2);
 }
+
+.addMainButton {
+  padding: 0.5rem 1rem;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  font-family: "Poppins", sans-serif;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  background-color: #6c757d;
+  white-space: nowrap;
+}
+
+.addMainButton:hover {
+  background-color: #5a6268;
+  transform: scale(1.05);
+}
+
+.addMainButton:active {
+  transform: scale(0.95);
+}
