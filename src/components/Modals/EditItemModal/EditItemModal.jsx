@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; // Використовуємо useNavigate
 import styles from "./EditItemModal.module.css";
 
 const EditItemModal = ({ item, onClose, onSave }) => {
@@ -10,6 +11,8 @@ const EditItemModal = ({ item, onClose, onSave }) => {
     status: item.status,
     category: item.category,
   });
+
+  const navigate = useNavigate(); // Ініціалізація navigate
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,23 +27,29 @@ const EditItemModal = ({ item, onClose, onSave }) => {
     onSave(formData);
   };
 
+  const handleCreateInvoice = () => {
+    // Зберігаємо товар у localStorage перед редагуванням
+    localStorage.setItem("editedItem", JSON.stringify(formData));
+    navigate("/createInvoice"); // Перенаправляємо на сторінку створення інвойсу
+  };
+
   useEffect(() => {
-  const handleKeyDown = (e) => {
-    if (e.key === "Escape") {
-      onClose();
-    }
-    if (e.key === "Enter") {
-      e.preventDefault(); 
-      onSave(formData); 
-    }
-  };
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+      if (e.key === "Enter") {
+        e.preventDefault(); 
+        onSave(formData); 
+      }
+    };
 
-  document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
 
-  return () => {
-    document.removeEventListener("keydown", handleKeyDown);
-  };
-}, [formData, onClose, onSave]);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [formData, onClose, onSave]);
 
   return (
     <div className={styles.modalOverlay}>
@@ -93,6 +102,14 @@ const EditItemModal = ({ item, onClose, onSave }) => {
           </select>
           <button type="submit" className={styles.saveButton}>
             Зберегти
+          </button>
+          {/* Кнопка для створення інвойсу */}
+          <button 
+            type="button" 
+            className={styles.saveButton} 
+            onClick={handleCreateInvoice} // Виклик перенаправлення
+          >
+            Створити інвойс
           </button>
         </form>
       </div>
