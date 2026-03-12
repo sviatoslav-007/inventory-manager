@@ -1,4 +1,5 @@
 import { silenceDotenv, logStatus } from './utils/utils.js';
+
 const restore = silenceDotenv();
 
 import express from "express";
