@@ -19,12 +19,10 @@ const CreateInvoice = () => {
     responsible: "Петро Іванов",
   });
 
-  // --- Зміна основних полів накладної ---
   const handleInvoiceChange = (field, value) => {
     setInvoiceData({ ...invoiceData, [field]: value });
   };
 
-  // --- Зміна товарів у таблиці ---
   const handleItemChange = (index, field, value) => {
     const newItems = [...invoiceData.items];
     if (field === "quantity" || field === "price") value = Number(value);
@@ -32,19 +30,16 @@ const CreateInvoice = () => {
     setInvoiceData({ ...invoiceData, items: newItems });
   };
 
-  // --- Додати новий рядок товару ---
   const addItem = () => {
     const newItem = { name: "", quantity: 1, price: 0, code: "" };
     setInvoiceData({ ...invoiceData, items: [...invoiceData.items, newItem] });
   };
 
-  // --- Видалити рядок товару ---
   const removeItem = (index) => {
     const newItems = invoiceData.items.filter((_, i) => i !== index);
     setInvoiceData({ ...invoiceData, items: newItems });
   };
 
-  // --- Обчислення загальної кількості та суми ---
   const totalQuantity = invoiceData.items.reduce(
     (acc, item) => acc + item.quantity,
     0
@@ -162,7 +157,6 @@ const CreateInvoice = () => {
           </tbody>
         </table>
 
-        {/* Кнопка додати рядок під таблицею */}
         <button type="button" className={styles.iconButtonAdd} onClick={addItem}>
           <FaPlus />
         </button>

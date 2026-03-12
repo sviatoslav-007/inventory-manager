@@ -58,11 +58,13 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+    border: 1px solid #ddd;
+
 }
 
 .table th,
 .table td {
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   padding: 10px;
   text-align: left;
 }
