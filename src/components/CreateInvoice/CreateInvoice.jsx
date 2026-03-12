@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaTrashAlt, FaPlus } from "react-icons/fa";
 import Header from "../Header/Header";
 import WordExport from "../WordExport/WordExport";
 import styles from "./CreateInvoice.module.css";
@@ -18,10 +19,12 @@ const CreateInvoice = () => {
     responsible: "Петро Іванов",
   });
 
+  // --- Зміна основних полів накладної ---
   const handleInvoiceChange = (field, value) => {
     setInvoiceData({ ...invoiceData, [field]: value });
   };
 
+  // --- Зміна товарів у таблиці ---
   const handleItemChange = (index, field, value) => {
     const newItems = [...invoiceData.items];
     if (field === "quantity" || field === "price") value = Number(value);
@@ -29,6 +32,19 @@ const CreateInvoice = () => {
     setInvoiceData({ ...invoiceData, items: newItems });
   };
 
+  // --- Додати новий рядок товару ---
+  const addItem = () => {
+    const newItem = { name: "", quantity: 1, price: 0, code: "" };
+    setInvoiceData({ ...invoiceData, items: [...invoiceData.items, newItem] });
+  };
+
+  // --- Видалити рядок товару ---
+  const removeItem = (index) => {
+    const newItems = invoiceData.items.filter((_, i) => i !== index);
+    setInvoiceData({ ...invoiceData, items: newItems });
+  };
+
+  // --- Обчислення загальної кількості та суми ---
   const totalQuantity = invoiceData.items.reduce(
     (acc, item) => acc + item.quantity,
     0
@@ -87,7 +103,7 @@ const CreateInvoice = () => {
               <th>Кількість</th>
               <th>Ціна</th>
               <th>Сума</th>
-              <th>На товар</th>
+              <th>Код</th>
             </tr>
           </thead>
           <tbody>
@@ -124,7 +140,7 @@ const CreateInvoice = () => {
                   />
                 </td>
                 <td>{item.quantity * item.price}</td>
-                <td>
+                <td style={{ display: "flex", alignItems: "center", gap: "5px" }}>
                   <input
                     type="text"
                     value={item.code}
@@ -133,11 +149,23 @@ const CreateInvoice = () => {
                     }
                     className={styles.inputTable}
                   />
+                  <button
+                    type="button"
+                    className={styles.iconButton}
+                    onClick={() => removeItem(index)}
+                  >
+                    <FaTrashAlt />
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        {/* Кнопка додати рядок під таблицею */}
+        <button type="button" className={styles.iconButtonAdd} onClick={addItem}>
+          <FaPlus />
+        </button>
 
         <div className={styles.totals}>
           <p>
