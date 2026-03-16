@@ -42,19 +42,16 @@ const Charts = () => {
     fetchData();
   }, []);
 
-  // --- ОБРОБКА ДАНИХ ДЛЯ КАТЕГОРІЙ (Doughnut & Bar) ---
   
-  // Рахуємо кількість товарів у кожній категорії
   const categoryCounts = inventoryData.reduce((acc, item) => {
     const cat = item.category || "Інше";
-    acc[cat] = (acc[cat] || 0) + 1; // Рахуємо кількість записів
+    acc[cat] = (acc[cat] || 0) + 1; 
     return acc;
   }, {});
 
   const labels = Object.keys(categoryCounts);
   const counts = Object.values(categoryCounts);
 
-  // Дані для стовпчикового графіка (Bar)
   const barChartData = {
     labels: labels,
     datasets: [
@@ -67,7 +64,6 @@ const Charts = () => {
     ],
   };
 
-  // Дані для кругового графіка (Doughnut) по статусах
   const statusCounts = inventoryData.reduce((acc, item) => {
     const status = item.status || "Не вказано";
     acc[status] = (acc[status] || 0) + 1;
