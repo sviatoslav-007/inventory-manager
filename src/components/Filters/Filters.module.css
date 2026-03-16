@@ -89,3 +89,22 @@
 .submitButton:active {
   transform: scale(0.98);
 }
+
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column; 
+    align-items: stretch;    
+    gap: 15px;
+  }
+
+  .select, 
+  .searchInput, 
+  .searchContainer {
+    width: 100% !important;
+  }
+
+  .submitButton {
+    width: 100%;
+    padding: 12px; 
+  }
+}

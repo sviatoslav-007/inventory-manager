@@ -19,13 +19,13 @@
 .logo {
   display: flex;
   align-items: center;
-  flex-shrink: 0;       /* логотип і текст не стискаються */
-  white-space: nowrap;  /* текст не переноситься */
+  flex-shrink: 0; /* логотип і текст не стискаються */
+  white-space: nowrap; /* текст не переноситься */
 }
 
 .logoIcon {
   font-size: 30px;
-  color: #007bff; 
+  color: #007bff;
   margin-right: 10px;
   flex-shrink: 0;
 }
@@ -49,13 +49,45 @@
 
 .icon {
   font-size: 20px;
-  color: #666; 
-  cursor: pointer; 
-  transition: color 0.3s ease, transform 0.3s ease; 
+  color: #666;
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
   flex-shrink: 0;
 }
 
 .icon:hover {
-  color: #444; 
-  transform: scale(1.1); 
+  color: #444;
+  transform: scale(1.1);
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 10px 15px;
+    height: 60px;
+  }
+
+  .logoIcon {
+    font-size: 24px;
+    margin-right: 8px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .icons {
+    gap: 20px;
+  }
+
+  .icon {
+    font-size: 22px;
+  }
+
+  @media (max-width: 400px) {
+    .title {
+      display: none;
+    }
+  }
 }

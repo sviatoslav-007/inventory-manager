@@ -159,3 +159,63 @@ td {
   padding: 40px;
   color: #888;
 }
+
+@media screen and (max-width: 768px) {
+
+  .table td {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    padding: 10px 0;
+    border-bottom: 1px solid #f2f2f2;
+  }
+
+  .table td:nth-of-type(4)::before {
+    align-self: flex-start;
+  }
+
+  .table td:nth-of-type(4) span {
+    align-self: center; 
+    margin-top: 5px;
+  }
+
+  .table td:last-child {
+    border-bottom: none;
+    display: block; 
+  }
+
+  .table td:last-child::before {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  
+  .table td:last-child .iconButton {
+    display: inline-flex; 
+    margin-right: 15px;
+    margin-top: 5px;
+    font-size: 22px;
+    vertical-align: middle;
+  }
+
+  .iconButton {
+    font-size: 18px !important; 
+    margin-right: 12px !important; 
+    margin-top: 5px;
+    display: inline-flex;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #999;
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+
+  .table td:nth-of-type(1)::before { content: "Назва Товару"; }
+  .table td:nth-of-type(2)::before { content: "Кількість"; }
+  .table td:nth-of-type(3)::before { content: "Ціна"; }
+  .table td:nth-of-type(4)::before { content: "Статус"; }
+  .table td:last-child::before { content: "Дії"; }
+}
