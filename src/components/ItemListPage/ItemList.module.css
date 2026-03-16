@@ -1,9 +1,8 @@
 .container {
-  padding: 20px 40px;
+  padding: 90px 40px 20px 40px; 
   background-color: #fff;
   font-family: Arial, sans-serif;
-  min-height: 100vh;
-  margin-top: 70px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -14,6 +13,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   width: 100%;
+  overflow: hidden; 
 }
 
 .pageTitle {
@@ -28,7 +28,7 @@
 .tableWrapper {
   width: 100%;
   max-width: 1330px;
-  max-height: 600px;
+  max-height: calc(100vh - 200px);
   overflow-y: auto;
   overflow-x: auto;
   background-color: #fff;
@@ -36,7 +36,6 @@
   margin-bottom: 30px;
 }
 
-/* Стилізація скроллбару */
 .tableWrapper::-webkit-scrollbar {
   width: 8px;
 }
@@ -68,7 +67,7 @@ th {
   top: 0;
   z-index: 10;
   padding: 12px;
-  text-align: left; 
+  text-align: left;
 }
 
 th.statusHeader {
@@ -81,7 +80,7 @@ td {
 }
 
 .statusCell {
-  text-align: center; 
+  text-align: center;
   vertical-align: middle;
   padding: 12px !important;
 }
@@ -89,7 +88,7 @@ td {
 .statusBadge {
   padding: 6px 18px;
   border-radius: 50px;
-  display: inline-flex;   
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   font-size: 13px;
@@ -101,7 +100,7 @@ td {
   min-width: 110px;
   background-color: #fff;
   transition: all 0.2s ease;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
 .available {

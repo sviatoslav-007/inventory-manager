@@ -32,6 +32,13 @@ const InventoryManager = () => {
   }, []);
 
   useEffect(() => {
+  document.body.classList.add("no-page-scroll");
+  return () => {
+    document.body.classList.remove("no-page-scroll");
+  };
+}, []);
+
+  useEffect(() => {
     let isMounted = true;
 
     const loadData = async () => {
