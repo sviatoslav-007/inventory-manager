@@ -29,4 +29,8 @@ app.use("/api", userRoutes);
 app.use("/api/inventory", inventoryRoutes); 
 app.use("/api/invoices", invoiceRoutes);
 
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
+
 app.listen(PORT, () => logStatus('server', PORT));
