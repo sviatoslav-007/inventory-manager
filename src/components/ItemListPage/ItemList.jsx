@@ -104,7 +104,7 @@ const ItemList = () => {
               <th>Категорія</th>
               <th>Кількість</th>
               <th>Ціна</th>
-              <th>Статус</th>
+              <th className={styles.statusHeader}>Статус</th>
             </tr>
           </thead>
           <tbody>

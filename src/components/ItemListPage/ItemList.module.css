@@ -36,6 +36,7 @@
   margin-bottom: 30px;
 }
 
+/* Стилізація скроллбару */
 .tableWrapper::-webkit-scrollbar {
   width: 8px;
 }
@@ -59,6 +60,7 @@
   border-collapse: collapse;
 }
 
+/* Заголовки таблиці */
 th {
   background-color: #f7f7f7;
   font-weight: bold;
@@ -66,6 +68,13 @@ th {
   position: sticky;
   top: 0;
   z-index: 10;
+  padding: 12px;
+  text-align: left; /* Стандарт для тексту */
+}
+
+/* Окреме центрування для заголовка колонки Статус */
+th.statusHeader {
+  text-align: center;
 }
 
 td {
@@ -73,22 +82,29 @@ td {
   border-bottom: 1px solid #f1f1f1;
 }
 
+/* Контейнер для бейджа у колонці */
+.statusCell {
+  text-align: center;       /* Горизонтальне центрування вмісту td */
+  vertical-align: middle;   /* Вертикальне центрування */
+  padding: 12px !important; /* Вирівняв padding з іншими td для симетрії */
+}
+
 .statusBadge {
   padding: 6px 18px;
   border-radius: 50px;
-  display: inline-flex;
+  display: inline-flex;     /* Дозволяє центрувати себе через text-align батька */
   justify-content: center;
   align-items: center;
   font-size: 13px;
   font-weight: 700;
   cursor: default;
-  text-align: center;
   white-space: nowrap;
   border-style: solid;
   border-width: 3px;
   min-width: 110px;
   background-color: #fff;
   transition: all 0.2s ease;
+  margin: 0 auto;           /* Додаткове страхування центрування */
 }
 
 .available {
@@ -99,13 +115,6 @@ td {
 .backorder {
   border-color: #fd7e14;
   color: #e8590c;
-}
-
-.statusCell {
-  text-align: center;
-  vertical-align: middle;
-  padding: 8px !important;
-  white-space: normal !important;
 }
 
 .select {
