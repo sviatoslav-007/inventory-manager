@@ -60,7 +60,6 @@
   border-collapse: collapse;
 }
 
-/* Заголовки таблиці */
 th {
   background-color: #f7f7f7;
   font-weight: bold;
@@ -69,10 +68,9 @@ th {
   top: 0;
   z-index: 10;
   padding: 12px;
-  text-align: left; /* Стандарт для тексту */
+  text-align: left; 
 }
 
-/* Окреме центрування для заголовка колонки Статус */
 th.statusHeader {
   text-align: center;
 }
@@ -82,17 +80,16 @@ td {
   border-bottom: 1px solid #f1f1f1;
 }
 
-/* Контейнер для бейджа у колонці */
 .statusCell {
-  text-align: center;       /* Горизонтальне центрування вмісту td */
-  vertical-align: middle;   /* Вертикальне центрування */
-  padding: 12px !important; /* Вирівняв padding з іншими td для симетрії */
+  text-align: center; 
+  vertical-align: middle;
+  padding: 12px !important;
 }
 
 .statusBadge {
   padding: 6px 18px;
   border-radius: 50px;
-  display: inline-flex;     /* Дозволяє центрувати себе через text-align батька */
+  display: inline-flex;   
   justify-content: center;
   align-items: center;
   font-size: 13px;
@@ -104,7 +101,7 @@ td {
   min-width: 110px;
   background-color: #fff;
   transition: all 0.2s ease;
-  margin: 0 auto;           /* Додаткове страхування центрування */
+  margin: 0 auto; 
 }
 
 .available {
