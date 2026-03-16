@@ -122,19 +122,19 @@ thead {
   }
 
   td:nth-of-type(1)::before {
-    content: "Назва товару";
+    content: "Номер накладної";
   }
   td:nth-of-type(2)::before {
-    content: "Категорія";
+    content: "Постачальник";
   }
   td:nth-of-type(3)::before {
-    content: "Кількість";
+    content: "Дата";
   }
   td:nth-of-type(4)::before {
     content: "Сума";
   }
   td:nth-of-type(5)::before {
-    content: "Статус";
+    content: "Відповідальний";
   }
 
   .status {

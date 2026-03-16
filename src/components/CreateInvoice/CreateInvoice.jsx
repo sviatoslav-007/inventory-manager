@@ -3,14 +3,12 @@ import { FaTrashAlt, FaPlus } from "react-icons/fa";
 import Header from "../Header/Header";
 import WordExport from "../WordExport/WordExport";
 import styles from "./CreateInvoice.module.css";
+import axios from "axios";
 
 const CreateInvoice = () => {
-  // Використовуємо функцію-ініціалізатор для useState
-  // Це дозволяє зчитати дані з localStorage ДО першого рендеру
   const [invoiceData, setInvoiceData] = useState(() => {
     const savedItem = localStorage.getItem("editedItem");
 
-    // Початковий шаблон (якщо localStorage порожній)
     const baseState = {
       number: "001",
       date: new Date().toISOString().split("T")[0],
@@ -48,6 +46,15 @@ const CreateInvoice = () => {
   useEffect(() => {
     localStorage.removeItem("editedItem");
   }, []);
+  
+  const saveToDb = async () => {
+  try {
+    await axios.post("http://localhost:5050/api/invoices", invoiceData);
+    console.log("Дані збережено в БД при експорті");
+  } catch (error) {
+    console.error("Помилка збереження в БД:", error);
+  }
+};
 
   const handleInvoiceChange = (field, value) => {
     setInvoiceData((prev) => ({ ...prev, [field]: value }));
@@ -257,7 +264,7 @@ const CreateInvoice = () => {
         </div>
 
         <div className={styles.actions}>
-          <WordExport invoiceData={invoiceData} />
+          <WordExport invoiceData={invoiceData} onExport={saveToDb} />
         </div>
       </div>
     </div>

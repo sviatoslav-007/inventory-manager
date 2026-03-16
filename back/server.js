@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import inventoryRoutes from "./routes/inventoryRoutes.js"; 
+import invoiceRoutes from "./routes/invoiceRoutes.js";
 
 dotenv.config();
 restore();
@@ -26,5 +27,6 @@ app.use(express.json());
 
 app.use("/api", userRoutes);
 app.use("/api/inventory", inventoryRoutes); 
+app.use("/api/invoices", invoiceRoutes);
 
 app.listen(PORT, () => logStatus('server', PORT));
