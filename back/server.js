@@ -1,6 +1,4 @@
 import { silenceDotenv, logStatus } from './utils/utils.js';
-import process from "node:process";
-
 const restore = silenceDotenv();
 
 import express from "express";
@@ -15,30 +13,25 @@ dotenv.config();
 restore();
 
 const app = express();
+const PORT = 5050;
 
-connectDB()
-  .then(() => logStatus('mongo'))
-  .catch(err => console.error("MongoDB connection error:", err));
+connectDB().then(() => logStatus('mongo'));
 
 app.use(cors({
-  origin: ["http://localhost:5173", "https://your-frontend-domain.vercel.app"],
+  origin: "http://localhost:5173",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.json({ message: "Server is running smoothly", status: "OK" });
-});
-
 app.use("/api", userRoutes);
 app.use("/api/inventory", inventoryRoutes); 
 app.use("/api/invoices", invoiceRoutes);
 
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 5050;
-  app.listen(PORT, () => logStatus('server', PORT));
-}
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
 
-export default app;
+app.listen(PORT, () => logStatus('server', PORT));
+
