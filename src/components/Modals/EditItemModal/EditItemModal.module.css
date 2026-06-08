@@ -114,3 +114,18 @@
   transform: translateY(0) scale(0.98);
   box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
+
+.saveButton:first-of-type {
+  background: linear-gradient(135deg, #2e1065, #4c1d95);
+  box-shadow: 0 6px 15px rgba(76, 29, 149, 0.3);
+}
+
+.saveButton:first-of-type:hover {
+  background: linear-gradient(135deg, #4c1d95, #6d28d9);
+  box-shadow: 0 10px 20px rgba(76, 29, 149, 0.45);
+}
+
+.saveButton:first-of-type:active {
+  background: linear-gradient(135deg, #2e1065, #3b0764);
+  box-shadow: 0 5px 10px rgba(76, 29, 149, 0.3);
+}
